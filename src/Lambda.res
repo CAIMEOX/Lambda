@@ -61,3 +61,24 @@ let rec eval = (t: lambda) => {
     }
   }
 }
+
+let print_lambda = l => {
+  let print_paren = (b, s) => {
+    if b {
+      "(" ++ s ++ ")"
+    } else {
+      s
+    }
+  }
+  let rec go = (l, p) => {
+    switch l {
+    | Var(x) => x
+    | Fun(x, a) => print_paren(p > 0, "λ " ++ x ++ " . " ++ go(a, 0))
+    | App(a, b) => print_paren(p > 1, go(a, 1) ++ " " ++ go(b, 2))
+    }
+  }
+  go(l, 0)
+}
+
+Js.log(print_lambda(App(Fun("x", Var("x")), Var("y"))))
+Js.log(print_lambda(eval(App(Fun("x", Var("x")), Fun("y", Var("x"))))))
