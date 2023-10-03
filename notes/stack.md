@@ -39,3 +39,24 @@ Terminates the execution and return the value off the top of the stack.
 
 ## Stack frame
 Stack frames keep track of the program counter , arguments, etc.
+
+## Assembler
+The assembler translates assembly to binary code
+### Encoding specification 
+|Instr|Opcode|Operand1|Operand2|Size|
+|-----|------|--------|--------|----|
+|Cst(i)|0|i|-|2|
+|Add|1|-|-|1|
+|Mul|2|-|-|1|
+|Var(i)|3|i|-|2|
+|Pop|4|-|-|1|
+|Swap|5|-|-|1|
+|Call(l,n)|6|get_addr(l)|n|3|
+|Ret(n)|7|n|-|2|
+|IfZero(l)|8|get_addr(l)|-|2|
+|Goto(l)|9|get_addr(l)|-|2|
+|Exit|10|-|-|1|
+
+- Opcode and operand are Int32 type
+- Size is used to compute offset
+
