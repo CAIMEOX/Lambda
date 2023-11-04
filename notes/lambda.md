@@ -16,7 +16,7 @@ $$
 - $\lambda x.x$
 - $(\lambda x.(xx))(\lambda y.(yy))$
 
-```rescript
+```ocaml
 type rec t = 
     | Var (string)
     | App (t,t)
@@ -55,7 +55,7 @@ $$
 
 ## Interpreter (Natural semantics)
 Evaluate the closed term (Values are functions):
-```rescript
+```ocaml
 let rec eval = (t: lambda) => {
   switch t {
   | Var(_) => assert false
@@ -70,7 +70,7 @@ let rec eval = (t: lambda) => {
 ```
 
 The substitution without free variables $a[x:=va]$
-```rescript
+```ocaml
 let rec subst = (x: string, v: lambda, a: lambda) => {
     switch a {
         | Var(y) => if x == y {v} else {a}
@@ -97,7 +97,7 @@ $$\bar{n}=\lambda fx.f^n(x)$$
 - $\bar{2}=\lambda fx.f(fx)$
 - $\bar{3}=\lambda fx.f(f(fx))$
 - $\cdots$
-```rescript
+```ocaml
 type c_nat<'a> = ('a => 'a, 'a) => 'a
 let c_zero = (s, z) => z
 let c_succ = (n) => (s, z) => s(n(s, z))
@@ -107,12 +107,12 @@ let c_three = (s, z) => s(s(s(z)))
 
 ### Peano Numbers
 Peano numbers are isomorphic to church numerals
-```rescript
+```ocaml
 type rec nat = Z | S (nat)
 let three = S (S (S Z))
 ```
 The isomorphism:
-```rescript
+```ocaml
 let church_to_peano = (n) => n(x => S(x), Z)
 let rec peano_to_church = (n) => {
     switch n {
@@ -160,8 +160,8 @@ $$
 \text{pred}=\lambda n.\text{fst}(n (\lambda p.\text{pair} (\text{snd}\ p) (\text{succ}(\text{snd}\ p)))(\text{pair}\ \bar{0}\ \bar{0}))
 $$
 
-In rescript
-```rescript
+In ocaml
+```ocaml
 let pred = (n) => {
     let init = (c_zero, c_zero)
     let iter = ((_, y)) => (y, c_succ(y))
